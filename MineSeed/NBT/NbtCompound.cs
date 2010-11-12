@@ -9,7 +9,7 @@ namespace LibNbt.Tags
 {
 	public class NbtCompound : NbtTag, INbtTagList
 	{
-		public List<NbtTag> Tags { get; protected set; }
+		public List<NbtTag> Tags { get; set; }
 
 		public NbtTag this[int tagIdx]
 		{

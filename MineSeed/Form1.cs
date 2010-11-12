@@ -31,7 +31,7 @@ namespace MineSeed
 
         private void btnDecode_Click(object sender, EventArgs e)
         {
-            MineSeeder.Set(tbCode.Text, "");
+            MineSeeder.Set(tbCode.Text, "C:\\Users\\C0BRA\\AppData\\Roaming\\.minecraft\\saves\\World4\\level.dat");
         }
     }
 }

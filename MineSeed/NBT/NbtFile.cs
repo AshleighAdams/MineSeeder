@@ -18,7 +18,7 @@ namespace LibNbt
 
         public NbtCompound RootTag { get; set; }
 
-        public NbtFile() : this("") { }
+        public NbtFile() : this("") {}
         public NbtFile(string fileName) : this(fileName, true) { }
         public NbtFile(string fileName, bool compressed)
         {

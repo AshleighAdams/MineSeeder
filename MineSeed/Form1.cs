@@ -24,14 +24,21 @@ namespace MineSeed
 
         private void btnEncode_Click(object sender, EventArgs e)
         {
-            openFileDialog.ShowDialog();
-            string encoded = MineSeeder.Get(openFileDialog.FileName);
-            tbCode.Text = encoded;
+            DialogResult res = openFileDialog.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                string encoded = MineSeeder.Get(openFileDialog.FileName);
+                tbCode.Text = encoded;
+            }
         }
 
         private void btnDecode_Click(object sender, EventArgs e)
         {
-            MineSeeder.Set(tbCode.Text, "C:\\Users\\C0BRA\\AppData\\Roaming\\.minecraft\\saves\\World4\\level.dat");
+            DialogResult res = saveFileDialog.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                MineSeeder.Set(tbCode.Text, saveFileDialog.FileName, cbStarterKit.Checked);
+            }
         }
     }
 }

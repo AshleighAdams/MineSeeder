@@ -14,51 +14,64 @@ namespace MineSeed
 
         public static string Get(string world_file)
         {
-            byte[] XOR_KEY = { 108, 111, 108, 32, 101, 97, 115, 116, 101, 114, 32, 101, 103, 103 };
-
-            NbtFile nbt = new NbtFile(world_file, true);
-            nbt.LoadFile();
-            
-            byte[] randSeed = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtLong>("/Data/RandomSeed").Value);
-            byte[] time = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtLong>("/Data/Time").Value);
-
-            byte[] playerX = BitConverter.GetBytes((int)nbt.RootTag.Tags[0].Query<NbtDouble>("/Data/Player/Pos/0").Value);
-            byte[] playerY = BitConverter.GetBytes((int)nbt.RootTag.Tags[0].Query<NbtDouble>("/Data/Player/Pos/1").Value);
-            byte[] playerZ = BitConverter.GetBytes((int)nbt.RootTag.Tags[0].Query<NbtDouble>("/Data/Player/Pos/2").Value);
-
-            byte[] rotationX = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtFloat>("/Data/Player/Rotation/0").Value);
-            byte[] rotationY = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtFloat>("/Data/Player/Rotation/1").Value);
-
-            uint size = (sizeof(long) * 2) + (sizeof(int) * 3) + (sizeof(float) * 2);
-
-            byte[] data = new byte[size];
-
-            int end = 0;
-            
-            Array.Copy(randSeed, 0, data, end, randSeed.Length);
-            end += randSeed.Length;
-            Array.Copy(time, 0, data, end, time.Length);
-            end += time.Length;
-            Array.Copy(playerX, 0, data, end, playerX.Length);
-            end += playerX.Length;
-            Array.Copy(playerY, 0, data, end, playerY.Length);
-            end += playerY.Length;
-            Array.Copy(playerZ, 0, data, end, playerZ.Length);
-            end += playerZ.Length;
-            Array.Copy(rotationX, 0, data, end, rotationX.Length);
-            end += rotationX.Length;
-            Array.Copy(rotationY, 0, data, end, rotationY.Length);
-
-            for (int i = 0; i < data.Length; i++)
+            try
             {
-                int mod = i % XOR_KEY.Length;
-                data[i] = (byte)((int)data[i] ^ (int)XOR_KEY[mod]);
-            }
+                byte[] XOR_KEY = { 108, 111, 108, 32, 101, 97, 115, 116, 101, 114, 32, 101, 103, 103 };
 
-            return "[" + Convert.ToBase64String(data) + "]";
+                NbtFile nbt = new NbtFile(world_file, true);
+                nbt.LoadFile();
+
+                byte[] randSeed = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtLong>("/Data/RandomSeed").Value);
+                byte[] time = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtLong>("/Data/Time").Value);
+
+                byte[] playerX = BitConverter.GetBytes((int)Math.Floor(nbt.RootTag.Tags[0].Query<NbtDouble>("/Data/Player/Pos/0").Value));
+                byte[] playerY = BitConverter.GetBytes((int)Math.Floor(nbt.RootTag.Tags[0].Query<NbtDouble>("/Data/Player/Pos/1").Value));
+                byte[] playerZ = BitConverter.GetBytes((int)Math.Floor(nbt.RootTag.Tags[0].Query<NbtDouble>("/Data/Player/Pos/2").Value));
+
+                byte[] rotationX = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtFloat>("/Data/Player/Rotation/0").Value);
+                byte[] rotationY = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtFloat>("/Data/Player/Rotation/1").Value);
+
+                uint size = (sizeof(long) * 2) + (sizeof(int) * 3) + (sizeof(float) * 2);
+
+                byte[] data = new byte[size];
+                int end = 0;
+
+                Array.Copy(randSeed, 0, data, end, randSeed.Length);
+                end += randSeed.Length;
+                Array.Copy(time, 0, data, end, time.Length);
+                end += time.Length;
+                Array.Copy(playerX, 0, data, end, playerX.Length);
+                end += playerX.Length;
+                Array.Copy(playerY, 0, data, end, playerY.Length);
+                end += playerY.Length;
+                Array.Copy(playerZ, 0, data, end, playerZ.Length);
+                end += playerZ.Length;
+                Array.Copy(rotationX, 0, data, end, rotationX.Length);
+                end += rotationX.Length;
+                Array.Copy(rotationY, 0, data, end, rotationY.Length);
+
+                for (int i = 0; i < data.Length; i++)
+                {
+                    int mod = i % XOR_KEY.Length;
+                    data[i] = (byte)((int)data[i] ^ (int)XOR_KEY[mod]);
+                }
+
+                return "[" + Convert.ToBase64String(data) + "]";
+            }
+            catch (Exception ex) { return "ERROR: " + ex.Message; }
         }
 
-        public static bool Set(string input, string file)
+        private static NbtCompound GetItemCompound(short id, byte count, byte slot, short dmg)
+        {
+            NbtCompound ret = new NbtCompound("");
+            ret.Tags.Add(new NbtByte("Count", count));
+            ret.Tags.Add(new NbtByte("Slot", slot));
+            ret.Tags.Add(new NbtShort("Damage", dmg));
+            ret.Tags.Add(new NbtShort("id", id));
+            return ret;
+        }
+
+        public static bool Set(string input, string file, bool starterKit)
         {
             try
             {
@@ -86,10 +99,10 @@ namespace MineSeed
                 int playerX = BitConverter.ToInt32(data, end);
                 end += sizeof(int);
 
-                int playerY = BitConverter.ToInt32(data, end);
+                int playerY = BitConverter.ToInt32(data, end); // height
                 end += sizeof(int);
 
-                int playerZ = BitConverter.ToInt32(data, end) + 1;
+                int playerZ = BitConverter.ToInt32(data, end);
                 end += sizeof(int);
 
                 float rotationX = BitConverter.ToSingle(data, end);
@@ -108,6 +121,8 @@ namespace MineSeed
                 data_compound.Tags.Add(new NbtInt("SpawnX", playerX));
                 data_compound.Tags.Add(new NbtInt("SpawnY", playerY));
                 data_compound.Tags.Add(new NbtInt("SpawnZ", playerZ));
+                data_compound.Tags.Add(new NbtLong("LastPlayed", 1289561130810));
+                data_compound.Tags.Add(new NbtLong("SizeOnDisk", 1000));
 
                 NbtCompound player_compound = new NbtCompound("Player");
 
@@ -120,13 +135,12 @@ namespace MineSeed
                 player_compound.Tags.Add(new NbtShort("HurtTime", 0));
                 player_compound.Tags.Add(new NbtInt("Dimension", 0));
                 player_compound.Tags.Add(new NbtInt("Score", 0));
-                player_compound.Tags.Add(new NbtShort("FallDistance", 0));
-                
+                player_compound.Tags.Add(new NbtFloat("FallDistance", 0));
 
                 NbtList player_pos = new NbtList("Pos");
-                player_pos.Tags.Add(new NbtDouble("", (double)playerX));
-                player_pos.Tags.Add(new NbtDouble("", (double)playerY));
-                player_pos.Tags.Add(new NbtDouble("", (double)playerZ));
+                player_pos.Tags.Add(new NbtDouble("", (double)playerX + 0.5));
+                player_pos.Tags.Add(new NbtDouble("", (double)playerY + 0.65));
+                player_pos.Tags.Add(new NbtDouble("", (double)playerZ + 0.5));
                 player_compound.Tags.Add(player_pos);
 
                 NbtList player_rot = new NbtList("Rotation");
@@ -135,14 +149,19 @@ namespace MineSeed
                 player_compound.Tags.Add(player_rot);
 
                 NbtList inv_compound = new NbtList("Inventory");
-                NbtCompound item_compound = new NbtCompound("");
-                item_compound.Tags.Add(new NbtByte("Count", 18));
-                item_compound.Tags.Add(new NbtByte("Slot", 0));
-                item_compound.Tags.Add(new NbtInt("Damage", 0));
-                item_compound.Tags.Add(new NbtInt("id", 12));
-                inv_compound.Tags.Add(item_compound);
+                if (starterKit)
+                {
+                    inv_compound.Tags.Add(GetItemCompound(263, 3, 34, 0));
+                    inv_compound.Tags.Add(GetItemCompound(17, 10, 35, 0));
+                    inv_compound.Tags.Add(GetItemCompound(274, 1, 0, 0));
+                    inv_compound.Tags.Add(GetItemCompound(273, 1, 1, 0));
+                    inv_compound.Tags.Add(GetItemCompound(319, 1, 6, 0));
+                    inv_compound.Tags.Add(GetItemCompound(319, 1, 7, 0));
+                    inv_compound.Tags.Add(GetItemCompound(50, 10, 8, 0));
+                }
                 player_compound.Tags.Add(inv_compound);
 
+                
 
                 NbtList player_mot = new NbtList("Motion");
                 player_mot.Tags.Add(new NbtDouble("", 0.0));
@@ -156,7 +175,7 @@ namespace MineSeed
                 nbt.RootTag.Tags.Add(data_compound);
 
                 Stream stream = File.OpenWrite(file);
-                nbt.SaveFile(stream);
+                nbt.SaveFile(stream, true);
                 stream.Close();
                 stream.Dispose();
 

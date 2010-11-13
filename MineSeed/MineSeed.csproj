@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LibNbt, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\LibNbt.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -60,23 +64,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="NBT\INbtTagList.cs" />
-    <Compile Include="NBT\INbtTagValue.cs" />
     <Compile Include="MineSeed.cs" />
-    <Compile Include="NBT\NbtByte.cs" />
-    <Compile Include="NBT\NbtByteArray.cs" />
-    <Compile Include="NBT\NbtCompound.cs" />
-    <Compile Include="NBT\NbtDouble.cs" />
-    <Compile Include="NBT\NbtFile.cs" />
-    <Compile Include="NBT\NbtFloat.cs" />
-    <Compile Include="NBT\NbtInt.cs" />
-    <Compile Include="NBT\NbtList.cs" />
-    <Compile Include="NBT\NbtLong.cs" />
-    <Compile Include="NBT\NbtQueryException.cs" />
-    <Compile Include="NBT\NbtShort.cs" />
-    <Compile Include="NBT\NbtString.cs" />
-    <Compile Include="NBT\NbtTag.cs" />
-    <Compile Include="NBT\NbtTagType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -105,8 +93,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="NBT\TagQuery.cs" />
-    <Compile Include="NBT\TagQueryToken.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

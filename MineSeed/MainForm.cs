@@ -64,7 +64,6 @@ namespace MineSeed
         {
             try
             {
-                Clipboard.Clear();
                 Clipboard.SetText(Text);
             }
             catch

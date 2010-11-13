@@ -77,6 +77,7 @@ namespace MineSeed
             {
                 byte[] XOR_KEY = { 108, 111, 108, 32, 101, 97, 115, 116, 101, 114, 32, 101, 103, 103 };
 
+                input = input.Trim();
                 if (!input.StartsWith("[") || !input.EndsWith("]"))
                     return false;
                 input = input.Replace("[", "").Replace("]", "");

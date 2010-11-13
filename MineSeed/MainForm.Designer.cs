@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.World1Label = new System.Windows.Forms.Label();
             this.World2Label = new System.Windows.Forms.Label();
             this.World3Label = new System.Windows.Forms.Label();
@@ -257,6 +258,7 @@
             this.Controls.Add(this.World2Label);
             this.Controls.Add(this.World1Label);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "MineSeeder";
             this.ResumeLayout(false);

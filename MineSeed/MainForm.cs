@@ -29,7 +29,7 @@ namespace MineSeed
         /// </summary>
         private void _Set(Label Label, Button Button, TextBox TextBox, string WorldPath)
         {
-            if (Directory.Exists(WorldPath))
+            if (Directory.Exists(WorldPath) && File.Exists(WorldPath + Path.DirectorySeparatorChar + "level.dat"))
             {
                 Label.ForeColor = _Active;
                 TextBox.ReadOnly = true;
@@ -155,5 +155,6 @@ namespace MineSeed
         private static Color _Free = Color.Green;
 
         private string _MinecraftPath;
+
     }
 }

@@ -48,6 +48,8 @@
             this.World5Button = new System.Windows.Forms.Button();
             this.BrowseButton = new System.Windows.Forms.Button();
             this.StarterKit = new System.Windows.Forms.CheckBox();
+            this.btnRefresh = new System.Windows.Forms.Button();
+            this.cbSunRise = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // World1Label
@@ -225,19 +227,44 @@
             // StarterKit
             // 
             this.StarterKit.AutoSize = true;
+            this.StarterKit.Checked = true;
+            this.StarterKit.CheckState = System.Windows.Forms.CheckState.Checked;
             this.StarterKit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.StarterKit.Location = new System.Drawing.Point(15, 235);
+            this.StarterKit.Location = new System.Drawing.Point(12, 233);
             this.StarterKit.Name = "StarterKit";
             this.StarterKit.Size = new System.Drawing.Size(212, 20);
             this.StarterKit.TabIndex = 18;
             this.StarterKit.Text = "Include starter kit when seeding";
             this.StarterKit.UseVisualStyleBackColor = true;
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(469, 235);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(86, 30);
+            this.btnRefresh.TabIndex = 19;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // cbSunRise
+            // 
+            this.cbSunRise.AutoSize = true;
+            this.cbSunRise.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbSunRise.Location = new System.Drawing.Point(12, 254);
+            this.cbSunRise.Name = "cbSunRise";
+            this.cbSunRise.Size = new System.Drawing.Size(175, 20);
+            this.cbSunRise.TabIndex = 20;
+            this.cbSunRise.Text = "Set time of day to sunrise";
+            this.cbSunRise.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(567, 260);
+            this.ClientSize = new System.Drawing.Size(567, 276);
+            this.Controls.Add(this.cbSunRise);
+            this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.StarterKit);
             this.Controls.Add(this.BrowseButton);
             this.Controls.Add(this.World5Button);
@@ -261,6 +288,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "MineSeeder";
+            this.Enter += new System.EventHandler(this.MainForm_Enter);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -287,5 +315,7 @@
         private System.Windows.Forms.Button World5Button;
         private System.Windows.Forms.Button BrowseButton;
         private System.Windows.Forms.CheckBox StarterKit;
+        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.CheckBox cbSunRise;
     }
 }

@@ -17,41 +17,73 @@ namespace MineSeed
             InitializeComponent();
             string path = this.MinecraftPath;
             string worlds = path + Path.DirectorySeparatorChar;
-            this._Set(this.World1Label, this.World1Button, this.World1Code, worlds + "World1");
-            this._Set(this.World2Label, this.World2Button, this.World2Code, worlds + "World2");
-            this._Set(this.World3Label, this.World3Button, this.World3Code, worlds + "World3");
-            this._Set(this.World4Label, this.World4Button, this.World4Code, worlds + "World4");
-            this._Set(this.World5Label, this.World5Button, this.World5Code, worlds + "World5");
+
+            this._ButtonActions = new Action[5];
+            this._Buttons = new Button[5];
+            this._TextBoxes = new TextBox[5];
+            this._WorldPaths = new string[5];
+            this._Labels = new Label[5];
+
+            this._Set(this.World1Label, this.World1Button, this.World1Code, worlds + "World1", 0);
+            this._Set(this.World2Label, this.World2Button, this.World2Code, worlds + "World2", 1);
+            this._Set(this.World3Label, this.World3Button, this.World3Code, worlds + "World3", 2);
+            this._Set(this.World4Label, this.World4Button, this.World4Code, worlds + "World4", 3);
+            this._Set(this.World5Label, this.World5Button, this.World5Code, worlds + "World5", 4);
         }
 
         /// <summary>
         /// Sets up a world.
         /// </summary>
-        private void _Set(Label Label, Button Button, TextBox TextBox, string WorldPath)
+        private void _Set(Label Label, Button Button, TextBox TextBox, string WorldPath, int Index)
         {
-            if (Directory.Exists(WorldPath) && File.Exists(WorldPath + Path.DirectorySeparatorChar + "level.dat"))
+            this._Labels[Index] = Label;
+            this._TextBoxes[Index] = TextBox;
+            this._WorldPaths[Index] = WorldPath;
+            this._Buttons[Index] = Button;
+            Button.Click += delegate
             {
-                Label.ForeColor = _Active;
-                TextBox.ReadOnly = true;
-                string code = MineSeeder.Get(WorldPath + Path.DirectorySeparatorChar + "level.dat");
-                TextBox.Text = code;
-                Button.Text = "Copy";
-                Button.Click += delegate
+                this._ButtonActions[Index]();
+            };
+            this._Update(Index);
+        }
+
+        /// <summary>
+        /// Updates information for the world at the index.
+        /// </summary>
+        private void _Update(int Index)
+        {
+            
+            string path = this._WorldPaths[Index];
+            TextBox textbox = this._TextBoxes[Index];
+            Label label = this._Labels[Index];
+            Button button = this._Buttons[Index];
+            button.Enabled = true;
+            textbox.Enabled = true;
+            if (Directory.Exists(path) && File.Exists(path + Path.DirectorySeparatorChar + "level.dat"))
+            {
+                label.ForeColor = _Active;
+                textbox.ReadOnly = true;
+                string code = MineSeeder.Get(path + Path.DirectorySeparatorChar + "level.dat");
+                textbox.Text = code;
+                button.Text = "Copy";
+                this._ButtonActions[Index] = delegate
                 {
                     _SetClipboard(code);
                 };
             }
             else
             {
-                Label.ForeColor = _Free;
-                Button.Text = "Load";
-                Button.Click += delegate
+                textbox.ReadOnly = false;
+                textbox.Text = "";
+                label.ForeColor = _Free;
+                button.Text = "Load";
+                this._ButtonActions[Index] = delegate
                 {
-                    if (this._Seed(TextBox.Text, WorldPath))
+                    if (this._Seed(textbox.Text, path))
                     {
-                        Button.Text = "Okay";
-                        Button.Enabled = false;
-                        TextBox.Enabled = false;
+                        button.Text = "Okay";
+                        button.Enabled = false;
+                        textbox.Enabled = false;
                     }
                 };
             }
@@ -81,7 +113,7 @@ namespace MineSeed
             {
                 Directory.CreateDirectory(World);
             }
-            if (!MineSeed.MineSeeder.Set(Code, World + Path.DirectorySeparatorChar + "level.dat", this.StarterKit.Checked))
+            if (!MineSeed.MineSeeder.Set(Code, World + Path.DirectorySeparatorChar + "level.dat", this.StarterKit.Checked, cbSunRise.Checked))
             {
                 Directory.Delete(World);
                 MessageBox.Show("The code you inputted is not valid... Don't worry, It'll be okay", "Oh No");
@@ -163,6 +195,12 @@ namespace MineSeed
             _SetClipboard(this._BrowseCode);
         }
 
+        private Action[] _ButtonActions;
+        private string[] _WorldPaths;
+        private TextBox[] _TextBoxes;
+        private Label[] _Labels;
+        private Button[] _Buttons;
+
         private string _BrowseFile;
         private string _BrowseCode;
 
@@ -170,6 +208,19 @@ namespace MineSeed
         private static Color _Free = Color.Green;
 
         private string _MinecraftPath;
+
+        private void MainForm_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                _Update(i);
+            }
+        }
 
     }
 }

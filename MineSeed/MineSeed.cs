@@ -71,7 +71,7 @@ namespace MineSeed
             return ret;
         }
 
-        public static bool Set(string input, string file, bool starterKit)
+        public static bool Set(string input, string file, bool starterKit, bool sunRize)
         {
             try
             {
@@ -118,7 +118,7 @@ namespace MineSeed
                 NbtCompound data_compound = new NbtCompound("Data");
 
                 data_compound.Tags.Add(new NbtLong("RandomSeed", randomSeed));
-                data_compound.Tags.Add(new NbtLong("Time", time));
+                data_compound.Tags.Add(new NbtLong("Time", sunRize ? 1 : time));
                 data_compound.Tags.Add(new NbtInt("SpawnX", playerX));
                 data_compound.Tags.Add(new NbtInt("SpawnY", playerY));
                 data_compound.Tags.Add(new NbtInt("SpawnZ", playerZ));

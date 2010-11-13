@@ -62,7 +62,7 @@
     </Compile>
     <Compile Include="NBT\INbtTagList.cs" />
     <Compile Include="NBT\INbtTagValue.cs" />
-    <Compile Include="NBT\MineSeed.cs" />
+    <Compile Include="MineSeed.cs" />
     <Compile Include="NBT\NbtByte.cs" />
     <Compile Include="NBT\NbtByteArray.cs" />
     <Compile Include="NBT\NbtCompound.cs" />

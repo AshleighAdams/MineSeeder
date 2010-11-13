@@ -195,6 +195,14 @@ namespace MineSeed
             _SetClipboard(this._BrowseCode);
         }
 
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                _Update(i);
+            }
+        }
+
         private Action[] _ButtonActions;
         private string[] _WorldPaths;
         private TextBox[] _TextBoxes;
@@ -208,19 +216,5 @@ namespace MineSeed
         private static Color _Free = Color.Green;
 
         private string _MinecraftPath;
-
-        private void MainForm_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnRefresh_Click(object sender, EventArgs e)
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                _Update(i);
-            }
-        }
-
     }
 }

@@ -239,6 +239,7 @@
             // 
             // btnRefresh
             // 
+            this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
             this.btnRefresh.Location = new System.Drawing.Point(469, 235);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(86, 30);

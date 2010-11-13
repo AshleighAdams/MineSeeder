@@ -38,7 +38,7 @@ namespace MineSeed
                 Button.Text = "Copy";
                 Button.Click += delegate
                 {
-                    Clipboard.SetText(code);
+                    _SetClipboard(code);
                 };
             }
             else
@@ -54,6 +54,22 @@ namespace MineSeed
                         TextBox.Enabled = false;
                     }
                 };
+            }
+        }
+
+        /// <summary>
+        /// Sets the contents of the clipboard.
+        /// </summary>
+        private static void _SetClipboard(string Text)
+        {
+            try
+            {
+                Clipboard.Clear();
+                Clipboard.SetText(Text);
+            }
+            catch
+            {
+
             }
         }
 
@@ -145,7 +161,7 @@ namespace MineSeed
 
         private void BrowseButton_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(this._BrowseCode);
+            _SetClipboard(this._BrowseCode);
         }
 
         private string _BrowseFile;

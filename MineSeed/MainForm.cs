@@ -76,7 +76,7 @@ namespace MineSeed
                 textbox.ReadOnly = false;
                 textbox.Text = "";
                 label.ForeColor = _Free;
-                button.Text = "Load";
+                button.Text = "Plant";
                 this._ButtonActions[Index] = delegate
                 {
                     if (this._Seed(textbox.Text, path))

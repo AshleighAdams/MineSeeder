@@ -216,5 +216,10 @@ namespace MineSeed
         private static Color _Free = Color.Green;
 
         private string _MinecraftPath;
+
+        private void cbRealSpawn_CheckedChanged(object sender, EventArgs e)
+        {
+            btnRefresh_Click(sender, e);
+        }
     }
 }

@@ -263,12 +263,13 @@
             // cbRealSpawn
             // 
             this.cbRealSpawn.AutoSize = true;
-            this.cbRealSpawn.Location = new System.Drawing.Point(261, 236);
+            this.cbRealSpawn.Location = new System.Drawing.Point(261, 237);
             this.cbRealSpawn.Name = "cbRealSpawn";
             this.cbRealSpawn.Size = new System.Drawing.Size(203, 17);
             this.cbRealSpawn.TabIndex = 21;
             this.cbRealSpawn.Text = "Use Real Spawn Point (Seeding only)";
             this.cbRealSpawn.UseVisualStyleBackColor = true;
+            this.cbRealSpawn.CheckedChanged += new System.EventHandler(this.cbRealSpawn_CheckedChanged);
             // 
             // MainForm
             // 

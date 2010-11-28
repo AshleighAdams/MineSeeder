@@ -63,7 +63,7 @@ namespace MineSeed
             {
                 label.ForeColor = _Active;
                 textbox.ReadOnly = true;
-                string code = MineSeeder.Get(path + Path.DirectorySeparatorChar + "level.dat");
+                string code = MineSeeder.Get(path + Path.DirectorySeparatorChar + "level.dat", cbRealSpawn.Checked);
                 textbox.Text = code;
                 button.Text = "Copy";
                 this._ButtonActions[Index] = delegate
@@ -183,7 +183,7 @@ namespace MineSeed
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 this._BrowseFile = ofd.FileName;
-                this._BrowseCode = MineSeeder.Get(this._BrowseFile);
+                this._BrowseCode = MineSeeder.Get(this._BrowseFile, cbRealSpawn.Checked);
                 this.BrowseCode.Text = this._BrowseCode;
                 this.BrowseCode.Enabled = true;
                 this.BrowseButton.Enabled = true;

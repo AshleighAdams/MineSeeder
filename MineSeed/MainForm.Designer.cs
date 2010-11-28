@@ -50,6 +50,7 @@
             this.StarterKit = new System.Windows.Forms.CheckBox();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.cbSunRise = new System.Windows.Forms.CheckBox();
+            this.cbRealSpawn = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // World1Label
@@ -259,11 +260,22 @@
             this.cbSunRise.Text = "Set time of day to sunrise";
             this.cbSunRise.UseVisualStyleBackColor = true;
             // 
+            // cbRealSpawn
+            // 
+            this.cbRealSpawn.AutoSize = true;
+            this.cbRealSpawn.Location = new System.Drawing.Point(261, 236);
+            this.cbRealSpawn.Name = "cbRealSpawn";
+            this.cbRealSpawn.Size = new System.Drawing.Size(203, 17);
+            this.cbRealSpawn.TabIndex = 21;
+            this.cbRealSpawn.Text = "Use Real Spawn Point (Seeding only)";
+            this.cbRealSpawn.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(567, 285);
+            this.Controls.Add(this.cbRealSpawn);
             this.Controls.Add(this.cbSunRise);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.StarterKit);
@@ -317,5 +329,6 @@
         private System.Windows.Forms.CheckBox StarterKit;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.CheckBox cbSunRise;
+        private System.Windows.Forms.CheckBox cbRealSpawn;
     }
 }

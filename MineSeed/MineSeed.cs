@@ -12,7 +12,7 @@ namespace MineSeed
     {
         
 
-        public static string Get(string world_file)
+        public static string Get(string world_file, bool realspawn)
         {
             try
             {
@@ -24,13 +24,25 @@ namespace MineSeed
                 byte[] randSeed = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtLong>("/Data/RandomSeed").Value);
                 byte[] time = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtLong>("/Data/Time").Value);
 
-                byte[] playerX = BitConverter.GetBytes((int)Math.Floor(nbt.RootTag.Tags[0].Query<NbtDouble>("/Data/Player/Pos/0").Value));
-                byte[] playerY = BitConverter.GetBytes((int)Math.Floor(nbt.RootTag.Tags[0].Query<NbtDouble>("/Data/Player/Pos/1").Value));
-                byte[] playerZ = BitConverter.GetBytes((int)Math.Floor(nbt.RootTag.Tags[0].Query<NbtDouble>("/Data/Player/Pos/2").Value));
+                byte[] playerX, playerY, playerZ, rotationX, rotationY;
 
-                byte[] rotationX = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtFloat>("/Data/Player/Rotation/0").Value);
-                byte[] rotationY = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtFloat>("/Data/Player/Rotation/1").Value);
-
+                if (!realspawn)
+                {
+                    playerX = BitConverter.GetBytes((int)Math.Floor(nbt.RootTag.Tags[0].Query<NbtDouble>("/Data/Player/Pos/0").Value));
+                    playerY = BitConverter.GetBytes((int)Math.Floor(nbt.RootTag.Tags[0].Query<NbtDouble>("/Data/Player/Pos/1").Value));
+                    playerZ = BitConverter.GetBytes((int)Math.Floor(nbt.RootTag.Tags[0].Query<NbtDouble>("/Data/Player/Pos/2").Value));
+                    rotationX = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtFloat>("/Data/Player/Rotation/0").Value);
+                    rotationY = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtFloat>("/Data/Player/Rotation/1").Value);
+                }
+                else
+                {
+                    playerX = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtInt>("/Data/SpawnX").Value);
+                    playerY = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtInt>("/Data/SpawnY").Value);
+                    playerZ = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtInt>("/Data/SpawnZ").Value);
+                    rotationX = BitConverter.GetBytes(0f);
+                    rotationY = BitConverter.GetBytes(0f);
+                }
+                
                 uint size = (sizeof(long) * 2) + (sizeof(int) * 3) + (sizeof(float) * 2);
 
                 byte[] data = new byte[size];

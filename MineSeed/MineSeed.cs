@@ -37,7 +37,7 @@ namespace MineSeed
                 else
                 {
                     playerX = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtInt>("/Data/SpawnX").Value);
-                    playerY = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtInt>("/Data/SpawnY").Value);
+                    playerY = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtInt>("/Data/SpawnY").Value + 2);
                     playerZ = BitConverter.GetBytes(nbt.RootTag.Tags[0].Query<NbtInt>("/Data/SpawnZ").Value);
                     rotationX = BitConverter.GetBytes(0f);
                     rotationY = BitConverter.GetBytes(0f);
